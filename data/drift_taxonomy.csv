@@ -1,0 +1,9 @@
+drift,description
+stable,Tool contract and runtime behavior unchanged
+schema_change,Argument name changes after integration
+semantic_change,Tool output meaning/value changes
+stale_response,Tool returns an outdated result
+transient_timeout,First call times out then may recover
+ambiguous_commit,Write commits but response times out
+permission_change,Previously available operation is denied
+rate_limit,First call is rate limited
