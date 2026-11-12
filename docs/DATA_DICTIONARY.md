@@ -11,11 +11,12 @@
 | tool | string | Mock tool name |
 | expected | string/integer | Expected result or state |
 | drift | string | Environment drift condition |
+| failures_before_recovery | integer | Calls a transient timeout or rate limit lasts (1 to 3) |
 | policy | string | Runtime policy under evaluation |
 | success | 0/1 | Expected task outcome achieved |
-| false_success | 0/1 | Incorrect/stale/ambiguous outcome reported as success |
+| false_success | 0/1 | Agent reported a value that was wrong or stale |
 | unsafe_side_effect | 0/1 | More than one mock write commit |
-| recovered | 0/1 | Successful completion after retry |
+| recovered | 0/1 | Correct completion after a retry or a schema re-read |
 | tool_calls | integer | Number of mock tool calls |
 | retries | integer | Number of retries after first attempt |
 | simulated_latency | integer | Sum of abstract latency units; not wall-clock time |

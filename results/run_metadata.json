@@ -1,0 +1,31 @@
+{
+  "benchmark": "AgentShiftBench",
+  "version": "0.2.0",
+  "episodes_per_seed": 1080,
+  "seeds": [
+    17,
+    29,
+    43,
+    71,
+    101
+  ],
+  "drift_conditions": [
+    "stable",
+    "schema_change",
+    "semantic_change",
+    "silent_semantic_change",
+    "stale_response",
+    "transient_timeout",
+    "ambiguous_commit",
+    "permission_change",
+    "rate_limit"
+  ],
+  "policies": [
+    "naive",
+    "retry_only",
+    "contract_guard"
+  ],
+  "python_version": "3.13.18",
+  "total_policy_evaluations": 16200,
+  "evidence_type": "synthetic deterministic simulation"
+}

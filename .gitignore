@@ -2,6 +2,5 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
-results/
 results_smoke/
 .DS_Store

@@ -1,9 +1,10 @@
 drift,description
-stable,Tool contract and runtime behavior unchanged
-schema_change,Argument name changes after integration
-semantic_change,Tool output meaning/value changes
-stale_response,Tool returns an outdated result
-transient_timeout,First call times out then may recover
-ambiguous_commit,Write commits but response times out
+stable,Tool contract and runtime behaviour unchanged
+schema_change,Argument name changes after integration; old name returns unknown_argument
+semantic_change,Compute output meaning changes and contract_version is bumped
+silent_semantic_change,Compute output meaning changes with no signal in the response
+stale_response,Tool returns an outdated result marked as not fresh
+transient_timeout,Calls time out 1 to 3 times then recover
+ambiguous_commit,First write commits but the response times out
 permission_change,Previously available operation is denied
-rate_limit,First call is rate limited
+rate_limit,Calls are rate limited 1 to 3 times then recover

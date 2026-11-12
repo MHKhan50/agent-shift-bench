@@ -46,4 +46,21 @@ class BenchmarkTests(unittest.TestCase):
         self.assertEqual(result['success'],0)
         self.assertEqual(result['false_success'],0)
 
+    def test_guard_recovers_from_schema_change(self):
+        ep=generate_episode(1,0)
+        ep.update({'task_kind':'read','expected':100,'drift':'schema_change'})
+        self.assertEqual(execute(ep,'contract_guard')['success'],1)
+        self.assertEqual(execute(ep,'retry_only')['success'],0)
+
+    def test_silent_semantic_change_fools_every_policy(self):
+        ep=generate_episode(1,0)
+        ep.update({'task_kind':'compute','expected':2500,'drift':'silent_semantic_change'})
+        for policy in POLICIES:
+            self.assertEqual(execute(ep,policy)['false_success'],1)
+
+    def test_drift_pairs_are_balanced(self):
+        from collections import Counter
+        counts=Counter((generate_episode(5,i)['task_id'],generate_episode(5,i)['drift']) for i in range(54*10))
+        self.assertEqual(set(counts.values()),{10})
+
 if __name__=='__main__': unittest.main()

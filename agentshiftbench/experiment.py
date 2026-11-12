@@ -32,7 +32,7 @@ def run(episodes, seeds, out_dir):
           'mean_simulated_latency':round(sum(x['simulated_latency'] for x in items)/n,4)})
     with open(os.path.join(out_dir,'summary.csv'),'w',newline='',encoding='utf-8') as f:
         w=csv.DictWriter(f,fieldnames=list(summary[0].keys())); w.writeheader(); w.writerows(summary)
-    metadata={'benchmark':'AgentShiftBench','version':'0.1.0','episodes_per_seed':episodes,
+    metadata={'benchmark':'AgentShiftBench','version':'0.2.0','episodes_per_seed':episodes,
       'seeds':seeds,'drift_conditions':DRIFTS,'policies':POLICIES,
       'python_version':platform.python_version(),'total_policy_evaluations':len(rows),
       'evidence_type':'synthetic deterministic simulation'}

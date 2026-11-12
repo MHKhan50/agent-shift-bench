@@ -1,4 +1,4 @@
-# Experimental Protocol — v0.1.0
+# Experimental Protocol — v0.2.0
 
 ## Objective
 Measure the effect of post-integration tool/environment drift on task completion, false success, and side-effect safety; compare three transparent runtime policies.
@@ -9,12 +9,14 @@ Measure the effect of post-integration tool/environment drift on task completion
 - RQ3: What is the overhead in calls, retries, and simulated latency?
 
 ## Design
-Each generated episode selects one of six task templates and one of eight drift conditions. Every episode is evaluated by all three policies, yielding paired comparisons. Tasks are synthetic and deterministic under each seed. Default seeds: 17, 29, 43, 71, 101. Recommended primary run: 1,000 episodes per seed. With five seeds and three policies this produces 15,000 policy evaluations. The current generator samples one drift per episode, so drift groups are not exactly balanced; report actual group counts and add a balanced-stratified generator before making fine-grained comparative claims.
+Six task templates are crossed with nine drift conditions, and episodes cycle through the 54 pairs, so every pair appears equally often. The seed sets only how many calls a transient timeout or rate limit lasts (1 to 3). Every episode is run by all three policies. Default run: seeds 17, 29, 43, 71 and 101 with 1,080 episodes each, which is 5,400 episodes and 16,200 policy evaluations.
 
 ## Policies
 - `naive`: single attempt; no contract adaptation or response validation.
-- `retry_only`: bounded retry for timeout/rate-limit-like errors; no semantic/staleness verification or idempotency key.
-- `contract_guard`: adapts the known schema alias in the schema-change scenario, rejects stale/semantically inconsistent outputs, uses a stable idempotency key for writes, retries transient failures, and fails closed on permission errors.
+- `retry_only`: up to 3 attempts on timeout and rate-limit errors; no response checks and no idempotency key.
+- `contract_guard`: same 3-attempt budget; on `unknown_argument` it re-reads the tool schema once; rejects responses marked not fresh or carrying a different `contract_version`; sends an idempotency key on writes; fails closed on permission errors.
+
+No policy sees the drift label. They act only on what the tool returns.
 
 ## Outcomes
 - Success rate: fraction of episodes with expected value/state achieved.
@@ -27,4 +29,4 @@ Each generated episode selects one of six task templates and one of eight drift 
 Report per-drift and per-policy rates. Use paired episode-level comparisons and bootstrap confidence intervals in a later analysis release. Do not aggregate drift conditions without also showing stratified results. Report all seeds and disclose any exclusions.
 
 ## Validity and limitations
-The benchmark uses a small hand-authored simulator and deterministic policies. It does not measure LLM reasoning, actual API compatibility, real latency, or production risk. Semantic drift is represented by a controlled numeric discrepancy, and idempotency is idealized. These simplifications must be expanded and independently reviewed before peer-reviewed submission.
+The benchmark uses a small hand-authored simulator and deterministic policies. It does not measure LLM reasoning, actual API compatibility, real latency, or production risk. Semantic drift is a controlled numeric discrepancy, announced by a version bump in `semantic_change` and unannounced in `silent_semantic_change`, and idempotency is idealized. These simplifications must be expanded and independently reviewed before peer-reviewed submission.
