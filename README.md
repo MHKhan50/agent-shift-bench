@@ -1,5 +1,7 @@
 # AgentShiftBench
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24167501.svg)](https://doi.org/10.5281/zenodo.24167501)
+
 What happens to a tool-using agent when the tool changes after the agent was built? An argument gets renamed, a number starts meaning something else, a write times out after it has already gone through.
 
 This is a small simulator for that question. Six mock tools (read, compute, write) meet nine kinds of drift, and three runtime policies try to get the task done. No network, no real side effects, standard library only.
